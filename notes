@@ -1,0 +1,27 @@
+To make your own React library, you need to define some functionalities, like creating and rendering the elements, making components and passing the props, managing states.
+
+State can be managed using some browser functionalities, like event listeners. 
+
+But how do event listeners work? Something called sub/pub. It's done using web APIs.
+
+So I need to abstract away as many functionalities as possible. 
+
+The heuristic algo that compares 2doms in react, uses 2 assumptions:
+1. 2 elements of different types will produce different trees.
+2. developer can hint which child components will be stable across renders, through key props.
+
+Breadth first search avoids going to child components, because the parent component will be re-rendered. (unline depth-first search)
+
+After diffing DOMs, React creates list of minimum possible changes. 
+
+Then fires off those changes as fast as possible.
+
+Accomplishes this through one full write cycle, without reflow.
+
+Reflow is process that browser uses to re-calculate color, geometries, positions of elements on page. During read-File event.
+
+shouldComponentUpdate() life-cycle hook gives you ability to specify whether a component needs re-rendering. 
+
+Performance tools help track rendering speeds.
+
+Hooks work by setting some global state.
