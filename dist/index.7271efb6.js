@@ -532,43 +532,59 @@ function hmrAcceptRun(bundle, id) {
 }
 
 },{}],"2kQhy":[function(require,module,exports) {
-var _recat = require("../libraries/recat");
+var _myReact = require("../libraries/myReact");
 var _list = require("./List");
 var _addTodo = require("./AddTodo");
 var _todo = require("./Todo");
 function App() {
-    return ()=>{
-        const [todos, setTodos] = (0, _recat.useState)([]);
-        let todoContent = "";
-        function addListItem(event) {
-            if (event.key !== "Enter") return;
-            const value = event.target.value;
-            todoContent = value;
-            const listItem = (0, _todo.Todo)(todoContent);
-            setTodos([
-                ...todos,
-                listItem
-            ], App, document.getElementById("root"));
-            event.target.value = "";
-        }
-        const app = (0, _recat.createElement)("div", [
-            {
-                id: "app"
-            },
-            (0, _addTodo.AddTodo)({
-                onkeydown: addListItem
-            }),
-            (0, _list.List)(todos)
-        ]);
-        return app;
-    };
+    const [todos, setTodos] = (0, _myReact.useState)([]);
+    let todoContent = "";
+    function addListItem(event) {
+        if (event.key !== "Enter") return;
+        const value = event.target.value;
+        todoContent = value;
+        const listItem = (0, _todo.Todo)(todoContent);
+        setTodos([
+            ...todos,
+            listItem
+        ], App, document.getElementById("root"));
+        event.target.value = "";
+    }
+    const app = (0, _myReact.createElement)("div", [
+        {
+            id: "app"
+        },
+        (0, _addTodo.AddTodo)({
+            onkeydown: addListItem
+        }),
+        (0, _list.List)(todos)
+    ]);
+    return app;
 }
-(0, _recat.render)(App(), document.getElementById("root"));
+(0, _myReact.render)(App, document.getElementById("root"));
 module.exports = {
     App
 };
 
-},{"../libraries/recat":"iz5IT","./Todo":"jSqGo","./List":"2czwp","./AddTodo":"1J0Bg"}],"iz5IT":[function(require,module,exports) {
+},{"./Todo":"jSqGo","./List":"2czwp","./AddTodo":"1J0Bg","../libraries/myReact":"4fVOw"}],"jSqGo":[function(require,module,exports) {
+var _myReact = require("../libraries/myReact");
+function Todo(todo) {
+    return ()=>{
+        const listItem = (0, _myReact.createElement)("li", [
+            {
+                class: "todo"
+            },
+            ()=>(0, _myReact.createTextElement)(todo)
+        ]);
+        return listItem;
+    };
+}
+module.exports = {
+    Todo
+} // abstract getElementById
+;
+
+},{"../libraries/myReact":"4fVOw"}],"4fVOw":[function(require,module,exports) {
 const nodes = [];
 let globalId = 0;
 let globalParent;
@@ -597,22 +613,20 @@ function useState(initialState) {
     const id = globalId;
     const parent = globalParent;
     globalId++;
-    return (()=>{
-        const { cache  } = componentStates.get(parent);
-        if (cache[id] == null) cache[id] = {
-            value: typeof initialState === "function" ? initialState() : initialState
-        };
-        const setState = (state)=>{
-            const { component  } = componentStates.get(parent);
-            if (typeof state === "function") cache[id].value = state(cache[id].value);
-            else cache[id].value = state;
-            render(component, parent);
-        };
-        return [
-            cache[id].value,
-            setState
-        ];
-    })();
+    const { cache  } = componentStates.get(parent);
+    if (cache[id] == null) cache[id] = {
+        value: typeof initialState === "function" ? initialState() : initialState
+    };
+    const setState = (state)=>{
+        const { component  } = componentStates.get(parent);
+        if (typeof state === "function") cache[id].value = state(cache[id].value);
+        else cache[id].value = state;
+        render(component, parent);
+    };
+    return [
+        cache[id].value,
+        setState
+    ];
 }
 const isProperty = (key)=>{
     return key !== "children";
@@ -654,29 +668,11 @@ module.exports = {
     useState
 };
 
-},{}],"jSqGo":[function(require,module,exports) {
-var _recat = require("../libraries/recat");
-function Todo(todo) {
-    return ()=>{
-        const listItem = (0, _recat.createElement)("li", [
-            {
-                class: "todo"
-            },
-            ()=>(0, _recat.createTextElement)(todo)
-        ]);
-        return listItem;
-    };
-}
-module.exports = {
-    Todo
-} // abstract getElementById
-;
-
-},{"../libraries/recat":"iz5IT"}],"2czwp":[function(require,module,exports) {
-var _recat = require("../libraries/recat");
+},{}],"2czwp":[function(require,module,exports) {
+var _myReact = require("../libraries/myReact");
 function List(todos) {
     return ()=>{
-        const list = (0, _recat.createElement)("ul", [
+        const list = (0, _myReact.createElement)("ul", [
             {
                 id: "todoList"
             },
@@ -689,11 +685,11 @@ module.exports = {
     List
 };
 
-},{"../libraries/recat":"iz5IT"}],"1J0Bg":[function(require,module,exports) {
-var _recat = require("../libraries/recat");
+},{"../libraries/myReact":"4fVOw"}],"1J0Bg":[function(require,module,exports) {
+var _myReact = require("../libraries/myReact");
 function AddTodo(props) {
     return ()=>{
-        const addTodo = (0, _recat.createElement)("input", [
+        const addTodo = (0, _myReact.createElement)("input", [
             {
                 id: "addTodo",
                 ...props
@@ -706,6 +702,6 @@ module.exports = {
     AddTodo
 };
 
-},{"../libraries/recat":"iz5IT"}]},["7Zeie","2kQhy"], "2kQhy", "parcelRequire7a14")
+},{"../libraries/myReact":"4fVOw"}]},["7Zeie","2kQhy"], "2kQhy", "parcelRequire7a14")
 
 //# sourceMappingURL=index.7271efb6.js.map

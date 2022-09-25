@@ -32,7 +32,6 @@ function useState(initialState) {
   const parent = globalParent
   globalId++
 
-  return (() => {
     const { cache } = componentStates.get(parent)
     if (cache[id] == null) {
       cache[id] = {
@@ -52,7 +51,6 @@ function useState(initialState) {
     }
 
     return [cache[id].value, setState]
-  })()
 }
 const isProperty = (key) => {
   return key !== 'children'

@@ -1,4 +1,4 @@
-import { createElement, render, createTextElement } from '../libraries/recat'
+import { createElement, render, createTextElement } from '../libraries/myReact'
 
 function List(todos) {
     return () => {
